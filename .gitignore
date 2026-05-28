@@ -1,0 +1,6 @@
+# nix/zola build
+result
+public
+
+# zola build
+processed_images

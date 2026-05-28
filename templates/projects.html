@@ -1,0 +1,20 @@
+{% import "macros/projects.html" as project_macros %}
+{% extends "base.html" %}
+
+{% block title %}projects | {{ config.title }}{% endblock title %}
+
+{% block content %}
+<main id="main" tabindex="-1">
+    {% set project_categories = load_data(path="content/projects/categories.json") %}
+
+    {% for category, tag in project_categories %}
+        <h1>{{ category }}</h1>
+        {% for page in section.pages %}
+            {% if page.taxonomies.categories is containing(tag) %}
+                {{ project_macros::project_listing(page=page) }}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+</main>
+{% endblock content %}

@@ -1,0 +1,18 @@
+base_url = "https://parthiv.cc/"
+default_language = "en"
+title = "Parthiv Krishna"
+description = "Personal site for Parthiv Krishna, a hardware engineer and a cappella producer"
+compile_sass = true
+
+taxonomies = [
+  { name = "categories", feed = true },
+  { name = "tags", feed = true },
+]
+
+[extra]
+menu_items = [
+  { name = "about", url = "/about" },
+  { name = "resume", url = "/resume" },
+  { name = "music", url = "https://sub0.productions" },
+  { name = "contact", url = "/contact" },
+]
