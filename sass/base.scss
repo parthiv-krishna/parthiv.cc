@@ -1,6 +1,6 @@
 /* Basic */
 html {
-    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+    font-family: var(--font-body);
     /* 1 */
     -ms-text-size-adjust: 100%;
     /* 2 */
@@ -13,7 +13,7 @@ body {
     background: var(--background-color);
     color: var(--text-color);
     font-size: 16px;
-    line-height: 1.5;
+    line-height: var(--line-height-body);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -70,15 +70,21 @@ main {
 /* Headers */
 h1 {
     font-size: 1.35em;
+    color: var(--color-heading-1);
+    font-family: var(--font-heading);
 }
 
 h2 {
     font-weight: normal;
     font-size: 1.2em;
+    color: var(--color-heading-2);
+    font-family: var(--font-heading);
 }
 
 h3 {
     font-size: 1em;
+    color: var(--color-heading-3);
+    font-family: var(--font-heading);
 }
 
 /* Links */
@@ -151,7 +157,9 @@ kbd {
 /* Styles */
 
 blockquote {
-    border-left: 2px solid #cccccc;
+    background: var(--color-quote-bg);
+    border-left: 2px solid var(--color-quote-marker);
+    color: var(--color-quote-fg);
     padding: 0.1em 1em;
     margin-left: 0.75em;
 }
@@ -164,7 +172,7 @@ p {
 hr {
     height: 1px;
     border: 0;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--color-rule);
 }
 
 ul ol, ol ol, ul ul {
@@ -380,7 +388,7 @@ figcaption {
     display: block;
     height: 1px;
     border: 0;
-    border-top: thin solid #f1f1f1;
+    border-top: thin solid var(--color-rule);
     width: 25%;
     margin: 1em auto;
 }
@@ -638,6 +646,7 @@ footer {
     .index-listing {
         max-width: none;
     }
+
 }
 
 

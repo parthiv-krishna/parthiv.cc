@@ -8,6 +8,9 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,12 +24,76 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         inherit (nixpkgs) lib;
+        oneDark = inputs.nix-colors.colorSchemes.onedark.palette;
+        themeSource = pkgs.writeTextDir "theme/theme.toml" ''
+          [name]
+          id = "personal-onedark"
+          display = "Personal OneDark"
+
+          [colors]
+          bg = "#${oneDark.base00}"
+          fg = "#${oneDark.base05}"
+          muted = "#${oneDark.base04}"
+          subtle = "#${oneDark.base03}"
+
+          accent = "#${oneDark.base0D}"
+          link = "#${oneDark.base0D}"
+          link_hover = "#${oneDark.base0C}"
+
+          heading_marker = "#${oneDark.base03}"
+          heading_1 = "#${oneDark.base0D}"
+          heading_2 = "#${oneDark.base0E}"
+          heading_3 = "#${oneDark.base0C}"
+          heading_4 = "#${oneDark.base0B}"
+          heading_5 = "#${oneDark.base0A}"
+          heading_6 = "#${oneDark.base08}"
+
+          code_fg = "#${oneDark.base05}"
+          code_bg = "#${oneDark.base01}"
+          code_border = "#${oneDark.base03}"
+
+          quote_fg = "#${oneDark.base0C}"
+          quote_marker = "#${oneDark.base03}"
+          quote_bg = "#${oneDark.base01}"
+
+          rule = "#${oneDark.base03}"
+          selection = "#${oneDark.base02}"
+
+          [typography]
+          body_font = "ZedMono Nerd Font, ZedMono Nerd Font Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+          heading_font = "ZedMono Nerd Font, ZedMono Nerd Font Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+          line_height = "1.65"
+
+          [markdown]
+          show_heading_markers = true
+          heading_marker_weight = "normal"
+          heading_text_weight = "700"
+          show_link_brackets = false
+          show_blockquote_marker = true
+
+          [terminal]
+          max_width = 96
+          h1_margin_top = 1
+          h1_margin_bottom = 1
+          h2_margin_top = 1
+          h2_margin_bottom = 0
+          paragraph_margin_bottom = 1
+        '';
 
         treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
           projectRootFile = "flake.nix";
           programs.mdformat.enable = true;
+          programs.gofmt.enable = true;
           programs.nixfmt.enable = true;
           programs.taplo.enable = true;
+        };
+
+        themeGenerator = pkgs.buildGoModule {
+          pname = "parthiv-cc-theme";
+          version = "0.1.0";
+          src = ./tui;
+          vendorHash = null;
+          subPackages = [ "cmd/theme" ];
         };
       in
       {
@@ -34,10 +101,25 @@
 
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            go
             treefmtEval.config.build.wrapper
             wrangler
             zola
           ];
+        };
+
+        # generate shared web and terminal theme artifacts
+        apps.theme = {
+          type = "app";
+          program = lib.getExe (
+            pkgs.writeShellApplication {
+              name = "parthiv-cc-theme";
+              runtimeInputs = [ themeGenerator ];
+              text = ''
+                theme -repo "$PWD" -theme ${themeSource}/theme/theme.toml
+              '';
+            }
+          );
         };
 
         # development server
@@ -51,9 +133,11 @@
               pkgs.writeShellApplication {
                 inherit name;
                 runtimeInputs = with pkgs; [
+                  themeGenerator
                   zola
                 ];
                 text = ''
+                  theme -repo "$PWD" -theme ${themeSource}/theme/theme.toml
                   zola serve
                 '';
               }
@@ -66,10 +150,12 @@
           src = ./.;
 
           buildInputs = with pkgs; [
+            themeGenerator
             zola
           ];
 
           buildPhase = ''
+            theme -repo "$PWD" -theme ${themeSource}/theme/theme.toml
             zola build
           '';
 

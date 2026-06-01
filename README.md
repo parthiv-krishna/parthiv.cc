@@ -16,11 +16,21 @@ nix fmt
 nix run
 ```
 
+This generates the shared theme artifacts and starts `zola serve`.
+
+### Generate theme artifacts
+
+```bash
+nix run .#theme
+```
+
 ### Build site
 
 ```bash
 nix build
 ```
+
+The build generates `static/generated/theme.css` before running `zola build`.
 
 ### Deploy to Cloudflare Pages
 
