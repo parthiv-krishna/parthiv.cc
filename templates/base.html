@@ -30,7 +30,7 @@
             <ul>
             {% block nav_bar %}
             {% for subsec in config.extra.menu_items %}
-                <li><a {% if current_url and current_url is starting_with(subsec.url) %}class="active"{% endif %} href="{{ subsec.url }}">{{ subsec.name }}</a></li>
+                <li><a {% if current_url and current_url is starting_with(subsec.url) %}class="active"{% endif %} href="{{ subsec.url }}">{{ subsec.name }}{% if subsec.url is starting_with("http") %}<span class="external-link-marker" aria-hidden="true">↗</span>{% endif %}</a></li>
             {% endfor %}
             {% endblock nav_bar %}
             </ul>

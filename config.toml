@@ -11,8 +11,7 @@ taxonomies = [
 
 [extra]
 menu_items = [
-  { name = "about", url = "/about" },
-  { name = "resume", url = "/resume" },
-  { name = "music", url = "https://sub0.productions" },
-  { name = "contact", url = "/contact" },
+  { name = "Resume", url = "/resume" },
+  { name = "Music", url = "https://sub0.productions" },
+  { name = "Contact", url = "/contact" },
 ]

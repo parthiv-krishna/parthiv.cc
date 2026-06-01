@@ -118,6 +118,13 @@ a.active {
     transition: all 0.1s linear;
 }
 
+.external-link-marker {
+    color: var(--color-muted);
+    font-size: 0.8em;
+    margin-left: 0.2em;
+    vertical-align: 0.1em;
+}
+
 /* Table */
 .table-wrapper {
     overflow-x: auto;
