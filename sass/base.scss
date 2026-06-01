@@ -67,6 +67,14 @@ main {
     object-position: 0 46%;
 }
 
+.profile-image {
+    border: 1px solid var(--color-rule);
+    border-radius: 0.5rem;
+    float: right;
+    margin: 0 0 1rem 1.5rem;
+    max-width: min(16rem, 40%);
+}
+
 /* Headers */
 h1 {
     font-size: 1.35em;
@@ -654,6 +662,11 @@ footer {
         max-width: none;
     }
 
+    .profile-image {
+        float: none;
+        margin: 0 auto 1rem;
+        max-width: 100%;
+    }
 }
 
 
