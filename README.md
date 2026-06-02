@@ -24,6 +24,12 @@ This generates the shared theme artifacts and starts `zola serve`.
 nix run .#theme
 ```
 
+### Run terminal UI
+
+```bash
+nix run .#tui
+```
+
 ### Build site
 
 ```bash

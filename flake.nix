@@ -88,16 +88,21 @@
           programs.taplo.enable = true;
         };
 
-        themeGenerator = pkgs.buildGoModule {
-          pname = "parthiv-cc-theme";
+        tuiPackage = pkgs.buildGoModule {
+          pname = "parthiv-cc-tui";
           version = "0.1.0";
           src = ./tui;
-          vendorHash = null;
-          subPackages = [ "cmd/theme" ];
+          vendorHash = "sha256-uwBJAqN4sIepiiJf9lCDumLqfKJEowQO2tOiSWD3Fig=";
+          subPackages = [
+            "cmd/theme"
+            "cmd/tui"
+          ];
         };
       in
       {
         formatter = treefmtEval.config.build.wrapper;
+
+        packages.tui = tuiPackage;
 
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
@@ -114,9 +119,23 @@
           program = lib.getExe (
             pkgs.writeShellApplication {
               name = "parthiv-cc-theme";
-              runtimeInputs = [ themeGenerator ];
+              runtimeInputs = [ tuiPackage ];
               text = ''
                 theme -repo "$PWD" -theme ${themeSource}/theme/theme.toml
+              '';
+            }
+          );
+        };
+
+        # local terminal UI for browsing the Zola content
+        apps.tui = {
+          type = "app";
+          program = lib.getExe (
+            pkgs.writeShellApplication {
+              name = "parthiv-cc-tui";
+              runtimeInputs = [ tuiPackage ];
+              text = ''
+                tui -content "$PWD/content"
               '';
             }
           );
@@ -133,7 +152,7 @@
               pkgs.writeShellApplication {
                 inherit name;
                 runtimeInputs = with pkgs; [
-                  themeGenerator
+                  tuiPackage
                   zola
                 ];
                 text = ''
@@ -150,7 +169,7 @@
           src = ./.;
 
           buildInputs = with pkgs; [
-            themeGenerator
+            tuiPackage
             zola
           ];
 
