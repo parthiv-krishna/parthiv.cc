@@ -2,6 +2,8 @@
 title = "Resume"
 +++
 
+# Resume
+
 ## Education
 
 ### Master of Science in Computer Science, Stanford University

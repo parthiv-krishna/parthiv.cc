@@ -31,10 +31,7 @@
     #}
     {% if page.summary %}
         {% set page_contents = page.content | replace(from=page.summary, to="") %}
-        <header>
-            <h1>{{ page.title }}</h1>
-            <h2 class="post-summary">{{ page.summary | striptags | safe }}</h2>
-        </header>
+        <h2 class="post-summary">{{ page.summary | striptags | safe }}</h2>
         {% if page.components is containing("projects") %}
         {{ page_macros::project_info(page=page) }}
         {% else %}
@@ -42,9 +39,6 @@
         {% endif %}
     {% else %}
         {% set page_contents = page.content %}
-        <header>
-            <h1>{{ page.title }}</h1>
-        </header>
         {{ page_macros::page_info(page=page) }}
     {% endif %}
     {% block page_contents %}

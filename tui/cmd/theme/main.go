@@ -237,7 +237,6 @@ article.post .content {
   color: var(--color-fg);
 }
 
-article.post > header h1,
 article.post .content h1,
 article.post .content h2,
 article.post .content h3,
@@ -249,7 +248,6 @@ article.post .content h6 {
   line-height: 1.15;
 }
 
-article.post > header h1,
 article.post .content h1 {
   color: var(--color-heading-1);
   font-size: clamp(1.75rem, 5vw, 2.75rem);
@@ -280,7 +278,6 @@ article.post .content h6 {
   color: var(--color-heading-6);
 }
 
-article.post > header h1::before,
 article.post .content h1::before {
   content: "# ";
   color: var(--color-heading-marker);
