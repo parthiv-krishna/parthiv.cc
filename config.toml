@@ -10,8 +10,10 @@ taxonomies = [
 ]
 
 [extra]
-menu_items = [
-  { name = "Resume", url = "/resume" },
-  { name = "Music", url = "https://sub0.productions" },
-  { name = "Contact", url = "/contact" },
+site_tree = [
+  { kind = "dir", name = "blog", depth = 0 },
+  { kind = "file", name = "test.md", url = "/blog/test", depth = 1 },
+  { kind = "file", name = "contact.md", url = "/contact", depth = 0 },
+  { kind = "symlink", name = "music", url = "https://sub0.productions", target = "https://sub0.productions", depth = 0 },
+  { kind = "file", name = "resume.md", url = "/resume", depth = 0 },
 ]

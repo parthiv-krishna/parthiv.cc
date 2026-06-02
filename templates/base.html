@@ -9,8 +9,8 @@
     <title>{% block title %}{{ config.title }}{% endblock title %}</title>
     <meta name="description" content="{{ config.description }}">
 
-    <link rel="stylesheet" href="{{ get_url(path="generated/theme.css", trailing_slash=false) }}">
-    <link rel="stylesheet" href="{{ get_url(path="base.css", trailing_slash=false) }}">
+    <link rel="stylesheet" href="/generated/theme.css">
+    <link rel="stylesheet" href="/base.css">
 
     {% if config.generate_feed %}
     <link rel="alternate" type={% if config.feed_filename == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=config.feed_filename) | safe }}">
@@ -20,31 +20,41 @@
     {% endblock extra_head %}
 </head>
 <body>
-<div class="container">
+<div class="site-shell">
     {% block header %}
-    <header>
+    <header class="site-explorer">
         <h1 class="site-header">
-            <a href="/">{{ config.title }}</a>
+            <a href="/">~/parthiv.cc</a>
         </h1>
-        <nav>
+        <nav class="file-tree" aria-label="Site files">
             <ul>
             {% block nav_bar %}
-            {% for subsec in config.extra.menu_items %}
-                <li><a {% if current_url and current_url is starting_with(subsec.url) %}class="active"{% endif %} href="{{ subsec.url }}">{{ subsec.name }}{% if subsec.url is starting_with("http") %}<span class="external-link-marker" aria-hidden="true">↗</span>{% endif %}</a></li>
+            {% for item in config.extra.site_tree %}
+                <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}">
+                    {% if item.kind == "dir" %}
+                    <span class="tree-dir">{{ item.name }}/</span>
+                    {% elif item.kind == "symlink" %}
+                    <a {% if current_url and current_url is starting_with(item.url) %}class="active"{% endif %} href="{{ item.url }}"><span class="tree-symlink">{{ item.name }}</span> <span class="tree-arrow">-&gt;</span> <span class="tree-target">{{ item.target }}</span></a>
+                    {% else %}
+                    <a {% if current_url and current_url is starting_with(item.url) %}class="active"{% endif %} href="{{ item.url }}">{{ item.name }}</a>
+                    {% endif %}
+                </li>
             {% endfor %}
             {% endblock nav_bar %}
             </ul>
         </nav>
     </header>
     {% endblock header %}
-    {% block content %}
-    {% endblock content %}
-    <footer>
-        <p>
-            {% block footer %}
-            {% endblock footer %}
-        </p>
-    </footer>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+        <footer>
+            <p>
+                {% block footer %}
+                {% endblock footer %}
+            </p>
+        </footer>
+    </div>
 </div>
 </body>
 </html>

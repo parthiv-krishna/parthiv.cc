@@ -36,6 +36,17 @@ summary {
 .container {
     max-width: 42em;
     margin: 2em auto 0;
+    min-width: 0;
+}
+
+.site-shell {
+    display: grid;
+    grid-template-columns: minmax(18rem, 20rem) minmax(0, 42em);
+    gap: 0;
+    justify-content: start;
+    margin: 0 auto;
+    max-width: 72rem;
+    padding: 0 1.5rem;
 }
 
 main {
@@ -196,9 +207,15 @@ ul ol, ol ol, ul ul {
 
 /* Header */
 
-header {
-    display: flex;
-    justify-content: space-between;
+.site-explorer {
+    align-self: start;
+    border-right: 1px solid var(--color-fg);
+    display: block;
+    margin-top: 2em;
+    min-height: calc(100vh - 4em);
+    padding: 0 1.5rem 0 0;
+    position: sticky;
+    top: 1rem;
 
     h1 {
         font-size: 1em;
@@ -213,21 +230,28 @@ header {
         font-weight: normal;
     }
 
-    nav {
-        margin-top: 1em;
+    .file-tree {
+        margin-top: 1rem;
         max-width: 100%;
-        text-align: right;
-        margin-bottom: 1em;
+        margin-bottom: 0;
+        text-align: left;
 
         ul {
             list-style-type: none;
-            display: inline-block;
-            float: right;
+            display: block;
+            float: none;
+            margin: 0;
+            padding: 0;
         }
 
         li {
-            padding-left: 2em;
-            float: left;
+            float: none;
+            padding-left: 1.5em;
+            white-space: nowrap;
+        }
+
+        .tree-depth-1 {
+            padding-left: 3em;
         }
     }
 
@@ -235,6 +259,22 @@ header {
         color: var(--text-color);
     }
 }
+
+.site-shell > .container {
+    margin-left: 0;
+    padding-left: 2rem;
+}
+
+.tree-dir,
+.tree-arrow,
+.tree-target {
+    color: var(--color-muted);
+}
+
+.tree-symlink {
+    color: var(--color-link);
+}
+
 /* Anchor links */
 
 h1, h2, h3, h4, h5, h6  {
@@ -250,9 +290,10 @@ h1, h2, h3, h4, h5, h6  {
 }
 
 .site-header {
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bolder;
-    margin-block-start: 1em;
+    margin-block-start: 0;
+    margin-block-end: 0;
     white-space: nowrap;
 }
 
@@ -409,7 +450,7 @@ figcaption {
 }
 
 .post {
-    header {
+    .site-explorer {
         display: block;
     }
 
@@ -612,6 +653,12 @@ footer {
         padding-right: 25px;
     }
 
+    .site-shell {
+        display: block;
+        max-width: none;
+        padding: 0;
+    }
+
     .container {
         max-width: 90%;
         margin: 0 auto;
@@ -622,23 +669,26 @@ footer {
         font-size: 14px;
     }
 
-    header {
-        display: block;
-    }
-
     .site-header {
-        text-align: center;
+        text-align: left;
     }
 
-    header {
-        nav {
+    .site-explorer {
+        border-left: 0;
+        border-radius: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--color-fg);
+        margin: 0;
+        min-height: 0;
+        padding: 0.75em 5%;
+        position: static;
+
+        .file-tree {
             margin-top: 0em;
             max-width: 100%;
-            text-align: center;
-            background: var(--header-background-color);
-        }
+            padding: 0;
+            text-align: left;
 
-        nav {
             ul {
                 float: none;
                 padding: 0;
@@ -646,16 +696,25 @@ footer {
             }
 
             li {
-                padding: 0.5em 1em;
+                padding: 0.15em 0 0.15em 1.5em;
+            }
+
+            .tree-depth-1 {
+                padding-left: 3em;
             }
 
             a:first-of-type {
                 margin-left: 0;
             }
             a {
-                margin-left: 5%;
+                margin-left: 0;
             }
         }
+    }
+
+    .site-shell > .container {
+        margin: 0 auto;
+        padding-left: 0;
     }
 
     .index-listing {
