@@ -17,6 +17,33 @@ type Page struct {
 	Body        string
 }
 
+func (p Page) DisplayPath() string {
+	path := filepath.ToSlash(p.Path)
+	if path == "_index.md" {
+		return "~/parthiv.cc"
+	}
+	if strings.HasSuffix(path, "/_index.md") {
+		return strings.TrimSuffix(path, "/_index.md") + "/"
+	}
+	return path
+}
+
+func (p Page) IsRoot() bool {
+	return filepath.ToSlash(p.Path) == "_index.md"
+}
+
+func (p Page) URL() string {
+	path := filepath.ToSlash(p.Path)
+	if path == "_index.md" {
+		return "/"
+	}
+	if strings.HasSuffix(path, "/_index.md") {
+		return "/" + strings.TrimSuffix(path, "/_index.md")
+	}
+	path = strings.TrimSuffix(path, ".md")
+	return "/" + path
+}
+
 func Load(root string) ([]Page, error) {
 	var pages []Page
 
@@ -68,13 +95,13 @@ func Load(root string) ([]Page, error) {
 	}
 
 	sort.Slice(pages, func(i, j int) bool {
-		if pages[i].Path == "_index.md" {
+		if filepath.ToSlash(pages[i].Path) == "_index.md" {
 			return true
 		}
-		if pages[j].Path == "_index.md" {
+		if filepath.ToSlash(pages[j].Path) == "_index.md" {
 			return false
 		}
-		return pages[i].Title < pages[j].Title
+		return pages[i].DisplayPath() < pages[j].DisplayPath()
 	})
 
 	return pages, nil

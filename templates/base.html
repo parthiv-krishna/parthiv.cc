@@ -30,13 +30,13 @@
             <ul>
             {% block nav_bar %}
             {% for item in config.extra.site_tree %}
-                <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}">
+                <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}{% if item.kind != "dir" and current_path and current_path is starting_with(item.url) %} active{% endif %}">
                     {% if item.kind == "dir" %}
                     <span class="tree-dir">{{ item.name }}/</span>
                     {% elif item.kind == "symlink" %}
-                    <a {% if current_url and current_url is starting_with(item.url) %}class="active"{% endif %} href="{{ item.url }}"><span class="tree-symlink">{{ item.name }}</span> <span class="tree-arrow">-&gt;</span> <span class="tree-target">{{ item.target }}</span></a>
+                    <a href="{{ item.url }}"><span class="tree-symlink">{{ item.name }}</span> <span class="tree-arrow">-&gt;</span> <span class="tree-target">{{ item.target }}</span></a>
                     {% else %}
-                    <a {% if current_url and current_url is starting_with(item.url) %}class="active"{% endif %} href="{{ item.url }}">{{ item.name }}</a>
+                    <a href="{{ item.url }}">{{ item.name }}</a>
                     {% endif %}
                 </li>
             {% endfor %}

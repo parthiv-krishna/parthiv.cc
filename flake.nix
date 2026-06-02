@@ -135,7 +135,7 @@
               name = "parthiv-cc-tui";
               runtimeInputs = [ tuiPackage ];
               text = ''
-                tui -content "$PWD/content"
+                tui -config "$PWD/config.toml" -content "$PWD/content"
               '';
             }
           );

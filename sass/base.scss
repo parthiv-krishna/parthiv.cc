@@ -245,9 +245,20 @@ ul ol, ol ol, ul ul {
         }
 
         li {
+            border-radius: 0.2rem;
             float: none;
             padding-left: 1.5em;
             white-space: nowrap;
+        }
+
+        li.active {
+            background: var(--color-selection);
+        }
+
+        a {
+            display: inline-block;
+            margin-left: -0.35em;
+            padding: 0 0.35em;
         }
 
         .tree-depth-1 {
@@ -265,13 +276,19 @@ ul ol, ol ol, ul ul {
     padding-left: 2rem;
 }
 
-.tree-dir,
-.tree-arrow,
-.tree-target {
+.tree-dir {
+    color: var(--color-link);
+}
+
+.tree-arrow {
     color: var(--color-muted);
 }
 
 .tree-symlink {
+    color: var(--color-heading-4);
+}
+
+.tree-target {
     color: var(--color-link);
 }
 
