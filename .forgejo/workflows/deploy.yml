@@ -4,22 +4,14 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: x86_64-linux
     steps:
-      - name: Cleanup runner
-        run: rm -rf /opt/hostedtoolcache && df -h .
-        
       - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
-
-      - name: Enable Nix cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
+        uses: https://data.forgejo.org/actions/checkout@v4
 
       - name: Check formatting
         run: nix fmt -- --ci
