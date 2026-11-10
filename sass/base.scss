@@ -248,7 +248,8 @@ ul ol, ol ol, ul ul {
             border-radius: 0.2rem;
             float: none;
             padding-left: 1.5em;
-            white-space: nowrap;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         li.active {
@@ -257,6 +258,8 @@ ul ol, ol ol, ul ul {
 
         a {
             display: inline-block;
+            box-sizing: border-box;
+            max-width: 100%;
             margin-left: -0.35em;
             padding: 0 0.35em;
         }

@@ -1,5 +1,6 @@
 +++
 title = "Hello World"
+aliases = ["/blog/test/"]
 +++
 
 # Hello World

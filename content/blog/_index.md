@@ -1,4 +1,4 @@
 +++
 title = "Blog"
-render = false
+template = "blog.html"
 +++

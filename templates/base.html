@@ -32,7 +32,7 @@
             {% for item in config.extra.site_tree %}
                 <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}{% if item.kind != "dir" and current_path and current_path is starting_with(item.url) %} active{% endif %}">
                     {% if item.kind == "dir" %}
-                    <span class="tree-dir">{{ item.name }}/</span>
+                    <a class="tree-dir" href="{{ item.url }}">{{ item.name }}/</a>
                     {% elif item.kind == "symlink" %}
                     <a href="{{ item.url }}"><span class="tree-symlink">{{ item.name }}</span> <span class="tree-arrow">-&gt;</span> <span class="tree-target">{{ item.target }}</span></a>
                     {% else %}

@@ -1,4 +1,6 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
+
+{% block title %}Page not found | {{ config.title }}{% endblock title %}
 
 {% block content %}
 <article class="post">
@@ -19,5 +21,6 @@
        | '=====''=====' |
        '----------------'
     </pre>
+    <p><a href="/">Return home</a></p>
 </article>
 {% endblock content %}
