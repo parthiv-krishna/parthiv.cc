@@ -3,6 +3,8 @@
 
 {% block title %}blog | {{ config.title }}{% endblock title %}
 
+{% block canonical %}{{ section.permalink }}{% endblock canonical %}
+
 {% block content %}
 <main id="main" tabindex="-1">
     {% block heading %}

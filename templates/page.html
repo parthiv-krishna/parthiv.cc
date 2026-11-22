@@ -3,9 +3,20 @@
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+
+{% block canonical %}{{ page.permalink }}{% endblock canonical %}
+
+{% block og_title %}{{ page.title }}{% endblock og_title %}
+
+{% block og_type %}article{% endblock og_type %}
+
 {% block content %}
 
 <article class="post">
+    {% if page.components is containing("projects") %}
+    <h1>{{ page.title }}</h1>
+    {% endif %}
     {% block featured_image %}
     {% if page.extra.featured_image %}
         {% if page.extra.featured_image is starting_with("/") %}

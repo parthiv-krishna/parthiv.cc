@@ -1,17 +1,21 @@
 <!-- project listing macros -->
 {% macro project_listing(page) %}
 <article class="post-list project-listing">
-    {% set album_cover = "/covers/" ~ page.slug ~ ".jpg" %}
-    {% set album_cover_alt = page.title ~ " album cover" %}
-
+    {% if page.extra.featured_image %}
+    {% set cover_src = "static" ~ page.extra.featured_image %}
+    {% set cover = resize_image(path=cover_src, width=300, op="fit_width") %}
+    {% set cover_alt = page.extra.featured_image_alt | default(value=page.title) %}
     <a href="{{ page.permalink }}" class="project-cover">
-        <img src="{{ album_cover }}" alt="{{ album_cover_alt }}"/>
+        <img src="{{ cover.url | safe }}" alt="{{ cover_alt }}" loading="lazy"/>
     </a>
+    {% endif %}
     <div class="project-details">
         <a href="{{ page.permalink }}">
             <header>
                 <h3>{{ page.title }}</h3>
-                <div class="project-artist">{{ page.extra.artist }}</div>
+                {% if page.extra.role %}
+                <div class="project-artist">{{ page.extra.role }}</div>
+                {% endif %}
             </header>
             {% if page.summary %}
             <div class="content post-summary">
@@ -34,14 +38,16 @@
         ◦
         <ul class="article-categories">
             {% for cat in page.taxonomies.categories %}
-            <li><a href="{{ get_taxonomy_url(kind="categories", name=cat) | safe }}">{{ cat }}</a></li>
+            {% set cat_url = get_taxonomy_url(kind="categories", name=cat) | safe %}
+            <li><a href="{{ cat_url }}">{{ cat }}</a></li>
             {% endfor %}
         </ul>
         {% endif %}
         {% if page.taxonomies.tags %}
         <ul class="article-tags">
             {% for tag in page.taxonomies.tags %}
-            <li><a href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}">#{{ tag }}</a></li>
+            {% set tag_url = get_taxonomy_url(kind="tags", name=tag) | safe %}
+            <li><a href="{{ tag_url }}">#{{ tag }}</a></li>
             {% endfor %}
         </ul>
         {% endif %}

@@ -7,3 +7,6 @@ processed_images
 
 # generated theme artifacts
 static/generated
+
+# linkedin export, contains a linkedin-scoped email alias
+Profile.pdf

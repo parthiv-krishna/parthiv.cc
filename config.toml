@@ -1,18 +1,20 @@
 base_url = "https://parthiv.cc/"
 default_language = "en"
 title = "Parthiv Krishna"
-description = "Personal site for Parthiv Krishna, a hardware engineer and a cappella producer"
+description = "Senior System Architect"
 compile_sass = true
+generate_feeds = true
+feed_filenames = ["atom.xml"]
 
 taxonomies = [
-  { name = "categories", feed = true },
-  { name = "tags", feed = true },
+  { name = "categories", feed = false },
+  { name = "tags", feed = false },
 ]
 
 [extra]
 site_tree = [
   { kind = "dir", name = "blog", url = "/blog", depth = 0 },
-  { kind = "file", name = "hello-world.md", url = "/blog/hello-world", depth = 1 },
+  { kind = "dir", name = "projects", url = "/projects", depth = 0 },
   { kind = "file", name = "contact.md", url = "/contact", depth = 0 },
   { kind = "symlink", name = "music", url = "https://sub0.productions", target = "sub0.productions", depth = 0 },
   { kind = "file", name = "resume.md", url = "/resume", depth = 0 },

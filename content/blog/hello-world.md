@@ -1,6 +1,7 @@
 +++
 title = "Hello World"
 aliases = ["/blog/test/"]
+draft = true
 +++
 
 # Hello World

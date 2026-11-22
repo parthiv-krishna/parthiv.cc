@@ -7,13 +7,37 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
 
     <title>{% block title %}{{ config.title }}{% endblock title %}</title>
-    <meta name="description" content="{{ config.description }}">
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+
+    {% set apple_touch_icon = resize_image(path="static/profile.webp", width=180, op="fit_width", format="png") %}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="{{ apple_touch_icon.url | safe }}">
+
+    <link rel="canonical" href="{% block canonical %}{{ config.base_url }}{% endblock canonical %}">
+    <meta property="og:site_name" content="{{ config.title }}">
+    <meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}">
+    <meta property="og:description" content="{% block description_copy %}{{ config.description }}{% endblock description_copy %}">
+    <meta property="og:url" content="{% block canonical_copy %}{{ config.base_url }}{% endblock canonical_copy %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}">
+    <meta property="og:image" content="{{ config.base_url }}profile.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ config.title }}{% endblock twitter_title %}">
+    <meta name="twitter:description" content="{{ config.description }}">
+    <meta name="twitter:image" content="{{ config.base_url }}profile.webp">
 
     <link rel="stylesheet" href="/generated/theme.css">
     <link rel="stylesheet" href="/base.css">
 
-    {% if config.generate_feed %}
-    <link rel="alternate" type={% if config.feed_filename == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=config.feed_filename) | safe }}">
+    {% if config.generate_feeds %}
+    {% set feed_filename = "atom.xml" %}
+    {% if config.feed_filenames %}
+    {% set feed_filename = config.feed_filenames | first %}
+    {% endif %}
+    {% set feed_type = "application/atom+xml" %}
+    {% if feed_filename is starting_with("rss") %}
+    {% set feed_type = "application/rss+xml" %}
+    {% endif %}
+    <link rel="alternate" type="{{ feed_type }}" title="RSS" href="{{ get_url(path=feed_filename) | safe }}">
     {% endif %}
 
     {% block extra_head %}
@@ -30,9 +54,13 @@
             <ul>
             {% block nav_bar %}
             {% for item in config.extra.site_tree %}
-                <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}{% if item.kind != "dir" and current_path and current_path is starting_with(item.url) %} active{% endif %}">
+                <li class="tree-item tree-item-{{ item.kind }} tree-depth-{{ item.depth }}{% if item.url and current_path and current_path is starting_with(item.url) %} active{% endif %}">
                     {% if item.kind == "dir" %}
+                    {% if item.url %}
                     <a class="tree-dir" href="{{ item.url }}">{{ item.name }}/</a>
+                    {% else %}
+                    <span class="tree-dir">{{ item.name }}/</span>
+                    {% endif %}
                     {% elif item.kind == "symlink" %}
                     <a href="{{ item.url }}"><span class="tree-symlink">{{ item.name }}</span> <span class="tree-arrow">-&gt;</span> <span class="tree-target">{{ item.target }}</span></a>
                     {% else %}
